@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <Header name="24CS095" themeColor="#7c3aed" />
+      <Header name="ANSH SOJITRA" themeColor="#7c3aed" />
       <About />
       <Skills skillList={["HTML", "CSS", "JS", "React"]} />
       <Projects />

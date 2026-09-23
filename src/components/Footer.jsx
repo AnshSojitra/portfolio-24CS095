@@ -1,10 +1,10 @@
 function Footer() {
   return (
     <footer id="footer" className="footer">
-      <p>&copy; {new Date().getFullYear()} Portfolio. All rights reserved.</p>
+      <p>&copy; {new Date().getFullYear()} Ansh Sojitra. All rights reserved.</p>
       <p>
         Contact:{" "}
-        <a href="mailto:student@example.com">student@example.com</a>
+        <a href="mailto:anshsojitra2@gmail.com">anshsojitra2@gmail.com</a>
       </p>
     </footer>
   );
