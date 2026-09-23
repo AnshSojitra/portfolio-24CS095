@@ -1,16 +1,41 @@
-# React + Vite
+# ⚛️ React Practical 1 – Student Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple Student Portfolio built using **React** and **Vite** to understand the basics of component-based development.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Reusable React Components
+- Component-Based Architecture
+- Props for Data Passing
+- Built with React + Vite
 
-## React Compiler
+## 📂 Components
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Component | Description |
+|-----------|-------------|
+| 🧭 NavBar | Sticky navigation bar with anchor links |
+| 🏠 Header | Displays name with `name` and `themeColor` props |
+| 👤 About | Brief introduction section |
+| 💻 Skills | Renders skills from `skillList` prop |
+| 📁 Projects | Hardcoded list of 3 projects |
+| 📞 Footer | Copyright and contact info |
 
-## Expanding the ESLint configuration
+## 🛠️ Run Locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Open: [http://localhost:5173](http://localhost:5173)
+
+## 📚 Concepts Covered
+
+- JSX
+- Functional Components
+- Props
+- Component Composition
+
+## 👨‍💻 Author
+
+**Ansh Sojitra** (24CS095) | B.Tech CSE | CHARUSAT
