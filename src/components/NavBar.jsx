@@ -1,12 +1,19 @@
-function NavBar() {
+import { NavLink } from 'react-router-dom'
+
+function NavBar({ darkMode, setDarkMode }) {
   return (
     <nav className="navbar">
       <ul className="navbar-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#footer">Contact</a></li>
+        <li><NavLink to="/" end>Home</NavLink></li>
+        <li><NavLink to="/projects">Projects</NavLink></li>
+        <li><NavLink to="/contact">Contact</NavLink></li>
       </ul>
+      <button
+        className="theme-toggle-btn"
+        onClick={() => setDarkMode(!darkMode)}
+      >
+        {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+      </button>
     </nav>
   );
 }
