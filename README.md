@@ -90,3 +90,92 @@ Client-side routing is implemented with `react-router-dom`:
 - React Router DOM (react-router-dom)
 - Vanilla CSS with CSS custom properties
 - ESLint
+
+---
+
+## Practical 3 – API Integration and Data Rendering in React
+
+### Objective
+
+Practical 3 extends the portfolio project with **API Integration and Dynamic Data Rendering** using the public GitHub REST API and native `fetch()`. The Projects page now dynamically fetches, manages, and renders repositories with full loading states, error handling with retry capability, and real-time search filtering.
+
+### GitHub REST API & Endpoint
+
+- **API**: Public GitHub REST API v3
+- **Endpoint**: `https://api.github.com/users/AnshSojitra/repos`
+- **Method**: Native `fetch()` API (no third-party HTTP libraries required)
+
+### Implementation Details
+
+#### 1. Data Fetching with `useEffect()` and `fetch()`
+Repositories are fetched asynchronously upon component mount within a `useEffect` hook using an empty dependency array (`[]`), ensuring the API request is not executed in the component render body:
+
+```jsx
+const [repos, setRepos] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  // Asynchronous API call on mount
+  ...
+}, []);
+```
+
+#### 2. Loading State (`Spinner` Component)
+- While the HTTP request is pending, a visible animated spinner and the message `Loading repositories...` are displayed.
+- Handled via `loading` state (`true` on initial fetch and retries; `false` once response arrives).
+- The spinner disappears immediately when data arrives or an error occurs.
+
+#### 3. Error State (`ErrorMessage` Component) & Retry Button
+- If network issues occur or the API returns an error status (e.g. 404, rate limit):
+  - An error message (`Unable to load repositories.`) is displayed without crashing or leaving a blank page.
+  - A **Retry** button triggers `fetchRepos()`, transitioning through:
+    ```text
+    Retry → loading → API request → success OR error
+    ```
+
+#### 4. Repository Rendering (`RepositoryCard` Component)
+Each repository is rendered dynamically from the API response with:
+- **Repository Name**: `repo.name`
+- **Star Count**: `repo.stargazers_count` (displayed with a star icon `★`)
+- **Repository URL**: `repo.html_url` opened in a new browser tab via `<a href={repo.html_url} target="_blank" rel="noopener noreferrer">`
+- Additional metadata: `repo.description` and `repo.language` badge
+
+#### 5. Real-Time Search / Filter
+A controlled text input above the repository list allows filtering repositories by name in real time:
+- State variable: `const [searchTerm, setSearchTerm] = useState('')`
+- Case-insensitive filtering:
+  ```jsx
+  const filteredRepos = repos.filter((repo) =>
+    repo.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  ```
+- If no repository matches the query, a friendly fallback message displays:
+  ```text
+  No repositories found.
+  ```
+
+### Reusable Components Added
+
+| Component | File Path | Purpose |
+|-----------|-----------|---------|
+| `Spinner` | `src/components/Spinner.jsx` | Accessible loading indicator with spinning CSS animation |
+| `ErrorMessage` | `src/components/ErrorMessage.jsx` | User-friendly alert box with interactive Retry button |
+| `RepositoryCard` | `src/components/RepositoryCard.jsx` | Card component displaying repo name, stars, URL, description |
+
+### Setup & Running Locally
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run the development server
+npm run dev
+
+# 3. Build for production
+npm run build
+
+# 4. Run ESLint checks
+npm run lint
+```
+
