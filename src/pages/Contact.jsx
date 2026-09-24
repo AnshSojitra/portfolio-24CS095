@@ -1,8 +1,27 @@
 import { useState } from 'react'
 
 function Contact() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [showHelp, setShowHelp] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      alert('Please fill in all fields before sending.')
+      return
+    }
+
+    setSubmitted(true)
+    setName('')
+    setEmail('')
+    setMessage('')
+
+    setTimeout(() => setSubmitted(false), 4000)
+  }
 
   return (
     <section className="contact">
@@ -24,12 +43,30 @@ function Contact() {
         </div>
       )}
 
-      <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+      {submitted && (
+        <div className="success-box">
+          <p>✅ Your message has been sent successfully!</p>
+        </div>
+      )}
+
+      <form className="contact-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
-        <input id="name" type="text" placeholder="Your name" />
+        <input
+          id="name"
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
         <label htmlFor="email">Email</label>
-        <input id="email" type="email" placeholder="Your email" />
+        <input
+          id="email"
+          type="email"
+          placeholder="Your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         <label htmlFor="message">Message</label>
         <textarea
@@ -56,3 +93,4 @@ function Contact() {
 }
 
 export default Contact
+
