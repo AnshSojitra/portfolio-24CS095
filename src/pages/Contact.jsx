@@ -1,13 +1,16 @@
 import { useState } from 'react'
 
+const API_URL = 'http://localhost:5000/api/messages'
+
 function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [showHelp, setShowHelp] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!name.trim() || !email.trim() || !message.trim()) {
@@ -15,12 +18,34 @@ function Contact() {
       return
     }
 
-    setSubmitted(true)
-    setName('')
-    setEmail('')
-    setMessage('')
+    setSending(true)
 
-    setTimeout(() => setSubmitted(false), 4000)
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+        }),
+      })
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}))
+        throw new Error(errData.error || 'Failed to send message.')
+      }
+
+      setSubmitted(true)
+      setName('')
+      setEmail('')
+      setMessage('')
+      setTimeout(() => setSubmitted(false), 4000)
+    } catch (err) {
+      alert(err.message || 'Something went wrong. Please try again.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -37,8 +62,8 @@ function Contact() {
       {showHelp && (
         <div className="help-box">
           <p>
-            Enter your message using the form below. I will get back to you as
-            soon as possible!
+            Enter your message using the form below. Your message will be saved
+            and I will get back to you as soon as possible!
           </p>
         </div>
       )}
@@ -79,7 +104,9 @@ function Contact() {
 
         <p className="char-count">Characters: {message.length}</p>
 
-        <button type="submit" className="submit-btn">Send Message</button>
+        <button type="submit" className="submit-btn" disabled={sending}>
+          {sending ? 'Sending...' : 'Send Message'}
+        </button>
       </form>
 
       {message && (
@@ -93,4 +120,3 @@ function Contact() {
 }
 
 export default Contact
-
